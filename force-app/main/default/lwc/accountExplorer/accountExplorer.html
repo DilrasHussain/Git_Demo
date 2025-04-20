@@ -1,0 +1,43 @@
+<template>
+  <lightning-card title="Account Explorer">
+    <template if:true={accounts}>
+        <lightning-datatable
+         key-field="Id"
+         data={accounts}
+         columns={accountColumns}
+         onrowaction={handleRowAction}>
+        </lightning-datatable>
+    </template>
+
+    <template if:true={selectedContacts}>
+        <h3 class="slds-m-top_medium slds-text-heading_small">Contacts for {selectedAccountName}</h3>
+        <lightning-datatable
+         key-field="Id"
+         data={selectedContacts}
+         columns={contactColumns}>
+        </lightning-datatable>
+        <lightning-button label="Add Contact" variant="brand" onclick={openModal}></lightning-button>
+    </template>
+    
+    <!--Modal-->
+    <template if:true={showModal}>
+        <section role="dialog" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <h2>Add New Contact</h2>
+                </header>
+                <div class="slds-modal__content">
+                    <lightning-input label="Name" value={newContact.Name} onchange={handleInputChange} data-field="Name"></lightning-input>
+                    <lightning-input label="Email" value={newContact.Email} onchange={handleInputChange} data-field="Email"></lightning-input>
+                    <lightning-input label="Phone" value={newContact.Phone} onchange={handleInputChange} data-field="Phone"></lightning-input>
+                </div>
+                <footer class="slds-modal__footer">
+                    <lightning-button variant="neutral" label="Cancel" onclick={closeModal}></lightning-button>
+                    <lightning-button variant="brand" label="Save" onclick={createNewContact}></lightning-button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+  </lightning-card>
+</template>
